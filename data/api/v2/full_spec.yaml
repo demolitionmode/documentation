@@ -1355,8 +1355,8 @@ components:
       description: Case when signal is generated.
       properties:
         condition:
-          description: 'A rule case contains logical operations (>, >=, &&, ||) to
-            determine if a signal should be generated
+          description: 'A rule case contains logical operations (`>`,` >=`, `&&`,
+            `||`) to determine if a signal should be generated
 
             based on the event counts in the previously defined queries.'
           type: string
@@ -1372,6 +1372,29 @@ components:
         status:
           $ref: '#/components/schemas/SecurityMonitoringRuleSeverity'
       type: object
+    SecurityMonitoringRuleCaseCreate:
+      description: Case when signal is generated.
+      properties:
+        condition:
+          description: 'A rule case contains logical operations (`>`,` >=`, `&&`,
+            `||`) to determine if a signal should be generated
+
+            based on the event counts in the previously defined queries.'
+          type: string
+        name:
+          description: Name of the case.
+          type: string
+        notifications:
+          description: Notification targets for each rule case
+          items:
+            description: Notification
+            type: string
+          type: array
+        status:
+          $ref: '#/components/schemas/SecurityMonitoringRuleSeverity'
+      required:
+      - status
+      type: object
     SecurityMonitoringRuleCreatePayload:
       description: Create a new rule.
       properties:
@@ -1379,7 +1402,7 @@ components:
           description: Cases for generating signals.
           example: []
           items:
-            $ref: '#/components/schemas/SecurityMonitoringRuleCase'
+            $ref: '#/components/schemas/SecurityMonitoringRuleCaseCreate'
           type: array
         isEnabled:
           description: Whether the rule is enabled.
@@ -1399,7 +1422,7 @@ components:
           description: Queries for selecting logs which are part of the rule.
           example: []
           items:
-            $ref: '#/components/schemas/SecurityMonitoringRuleQuery'
+            $ref: '#/components/schemas/SecurityMonitoringRuleQueryCreate'
           type: array
         tags:
           description: Tags for generated signals.
@@ -1417,7 +1440,6 @@ components:
       - options
       - cases
       - message
-      - tags
       type: object
     SecurityMonitoringRuleEvaluationWindow:
       description: 'A time window is specified to match when at least one of the cases
@@ -1531,6 +1553,30 @@ components:
           description: Query to run on logs
           type: string
       type: object
+    SecurityMonitoringRuleQueryCreate:
+      description: Query for matching rule.
+      properties:
+        distinctFields:
+          description: Field for which the cardinality is measured. Sent as an array.
+          items:
+            description: Field
+            type: string
+          type: array
+        groupByFields:
+          description: Fields to group by.
+          items:
+            description: Field
+            type: string
+          type: array
+        name:
+          description: Name of the query
+          type: string
+        query:
+          description: Query to run on logs
+          type: string
+      required:
+      - query
+      type: object
     SecurityMonitoringRuleResponse:
       description: Detection rule
       properties:
@@ -1571,6 +1617,57 @@ components:
           description: Queries for selecting logs which are part of the rule.
           items:
             $ref: '#/components/schemas/SecurityMonitoringRuleQuery'
+          type: array
+        tags:
+          description: Tags for generated signals.
+          items:
+            description: Tag
+            type: string
+          type: array
+        version:
+          description: The version of the rule.
+          format: int64
+          type: integer
+    SecurityMonitoringRuleResponseCreate:
+      description: Detection rule
+      properties:
+        cases:
+          description: Cases for generating signals.
+          items:
+            $ref: '#/components/schemas/SecurityMonitoringRuleCaseCreate'
+          type: array
+        createdAt:
+          description: When the rule was created, timestamp in milliseconds.
+          format: int64
+          type: integer
+        creationAuthorId:
+          description: User ID of the user who created the rule.
+          format: int64
+          type: integer
+        id:
+          description: The ID of the rule.
+          type: string
+        isDefault:
+          description: Whether the rule is included by default.
+          type: boolean
+        isDeleted:
+          description: Whether the rule has been deleted.
+          type: boolean
+        isEnabled:
+          description: Whether the rule is enabled.
+          type: boolean
+        message:
+          description: Message for generated signals.
+          type: string
+        name:
+          description: The name of the rule.
+          type: string
+        options:
+          $ref: '#/components/schemas/SecurityMonitoringRuleOptions'
+        queries:
+          description: Queries for selecting logs which are part of the rule.
+          items:
+            $ref: '#/components/schemas/SecurityMonitoringRuleQueryCreate'
           type: array
         tags:
           description: Tags for generated signals.
@@ -3300,7 +3397,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SecurityMonitoringRuleResponse'
+                $ref: '#/components/schemas/SecurityMonitoringRuleResponseCreate'
           description: OK
         '400':
           $ref: '#/components/responses/BadRequestResponse'

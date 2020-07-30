@@ -5677,7 +5677,7 @@
                     "description": "Case when signal is generated.",
                     "properties": {
                       "condition": {
-                        "description": "A rule case contains logical operations (>, >=, &&, ||) to determine if a signal should be generated\nbased on the event counts in the previously defined queries.",
+                        "description": "A rule case contains logical operations (`>`,` >=`, `&&`, `||`) to determine if a signal should be generated\nbased on the event counts in the previously defined queries.",
                         "type": "string"
                       },
                       "name": {
@@ -5918,7 +5918,7 @@
         "description": "Case when signal is generated.",
         "properties": {
           "condition": {
-            "description": "A rule case contains logical operations (>, >=, &&, ||) to determine if a signal should be generated\nbased on the event counts in the previously defined queries.",
+            "description": "A rule case contains logical operations (`>`,` >=`, `&&`, `||`) to determine if a signal should be generated\nbased on the event counts in the previously defined queries.",
             "type": "string"
           },
           "name": {
@@ -5954,6 +5954,49 @@
         },
         "type": "object"
       },
+      "SecurityMonitoringRuleCaseCreate": {
+        "description": "Case when signal is generated.",
+        "properties": {
+          "condition": {
+            "description": "A rule case contains logical operations (`>`,` >=`, `&&`, `||`) to determine if a signal should be generated\nbased on the event counts in the previously defined queries.",
+            "type": "string"
+          },
+          "name": {
+            "description": "Name of the case.",
+            "type": "string"
+          },
+          "notifications": {
+            "description": "Notification targets for each rule case",
+            "items": {
+              "description": "Notification",
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "status": {
+            "description": "Severity of the Security Signal.",
+            "enum": [
+              "info",
+              "low",
+              "medium",
+              "high",
+              "critical"
+            ],
+            "type": "string",
+            "x-enum-varnames": [
+              "INFO",
+              "LOW",
+              "MEDIUM",
+              "HIGH",
+              "CRITICAL"
+            ]
+          }
+        },
+        "required": [
+          "status"
+        ],
+        "type": "object"
+      },
       "SecurityMonitoringRuleCreatePayload": {
         "description": "Create a new rule.",
         "properties": {
@@ -5964,7 +6007,7 @@
               "description": "Case when signal is generated.",
               "properties": {
                 "condition": {
-                  "description": "A rule case contains logical operations (>, >=, &&, ||) to determine if a signal should be generated\nbased on the event counts in the previously defined queries.",
+                  "description": "A rule case contains logical operations (`>`,` >=`, `&&`, `||`) to determine if a signal should be generated\nbased on the event counts in the previously defined queries.",
                   "type": "string"
                 },
                 "name": {
@@ -5998,6 +6041,9 @@
                   ]
                 }
               },
+              "required": [
+                "status"
+              ],
               "type": "object"
             },
             "type": "array"
@@ -6137,6 +6183,9 @@
                   "type": "string"
                 }
               },
+              "required": [
+                "query"
+              ],
               "type": "object"
             },
             "type": "array"
@@ -6160,8 +6209,7 @@
           "queries",
           "options",
           "cases",
-          "message",
-          "tags"
+          "message"
         ],
         "type": "object"
       },
@@ -6367,6 +6415,39 @@
         },
         "type": "object"
       },
+      "SecurityMonitoringRuleQueryCreate": {
+        "description": "Query for matching rule.",
+        "properties": {
+          "distinctFields": {
+            "description": "Field for which the cardinality is measured. Sent as an array.",
+            "items": {
+              "description": "Field",
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "groupByFields": {
+            "description": "Fields to group by.",
+            "items": {
+              "description": "Field",
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "name": {
+            "description": "Name of the query",
+            "type": "string"
+          },
+          "query": {
+            "description": "Query to run on logs",
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "type": "object"
+      },
       "SecurityMonitoringRuleResponse": {
         "description": "Detection rule",
         "properties": {
@@ -6376,7 +6457,7 @@
               "description": "Case when signal is generated.",
               "properties": {
                 "condition": {
-                  "description": "A rule case contains logical operations (>, >=, &&, ||) to determine if a signal should be generated\nbased on the event counts in the previously defined queries.",
+                  "description": "A rule case contains logical operations (`>`,` >=`, `&&`, `||`) to determine if a signal should be generated\nbased on the event counts in the previously defined queries.",
                   "type": "string"
                 },
                 "name": {
@@ -6586,6 +6667,231 @@
           }
         }
       },
+      "SecurityMonitoringRuleResponseCreate": {
+        "description": "Detection rule",
+        "properties": {
+          "cases": {
+            "description": "Cases for generating signals.",
+            "items": {
+              "description": "Case when signal is generated.",
+              "properties": {
+                "condition": {
+                  "description": "A rule case contains logical operations (`>`,` >=`, `&&`, `||`) to determine if a signal should be generated\nbased on the event counts in the previously defined queries.",
+                  "type": "string"
+                },
+                "name": {
+                  "description": "Name of the case.",
+                  "type": "string"
+                },
+                "notifications": {
+                  "description": "Notification targets for each rule case",
+                  "items": {
+                    "description": "Notification",
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "status": {
+                  "description": "Severity of the Security Signal.",
+                  "enum": [
+                    "info",
+                    "low",
+                    "medium",
+                    "high",
+                    "critical"
+                  ],
+                  "type": "string",
+                  "x-enum-varnames": [
+                    "INFO",
+                    "LOW",
+                    "MEDIUM",
+                    "HIGH",
+                    "CRITICAL"
+                  ]
+                }
+              },
+              "required": [
+                "status"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "createdAt": {
+            "description": "When the rule was created, timestamp in milliseconds.",
+            "format": "int64",
+            "type": "integer"
+          },
+          "creationAuthorId": {
+            "description": "User ID of the user who created the rule.",
+            "format": "int64",
+            "type": "integer"
+          },
+          "id": {
+            "description": "The ID of the rule.",
+            "type": "string"
+          },
+          "isDefault": {
+            "description": "Whether the rule is included by default.",
+            "type": "boolean"
+          },
+          "isDeleted": {
+            "description": "Whether the rule has been deleted.",
+            "type": "boolean"
+          },
+          "isEnabled": {
+            "description": "Whether the rule is enabled.",
+            "type": "boolean"
+          },
+          "message": {
+            "description": "Message for generated signals.",
+            "type": "string"
+          },
+          "name": {
+            "description": "The name of the rule.",
+            "type": "string"
+          },
+          "options": {
+            "description": "Options on rules.",
+            "properties": {
+              "evaluationWindow": {
+                "description": "A time window is specified to match when at least one of the cases matches true. This is a sliding window\nand evaluates in real time.",
+                "enum": [
+                  0,
+                  60,
+                  300,
+                  600,
+                  900,
+                  1800,
+                  3600,
+                  7200
+                ],
+                "format": "int32",
+                "type": "integer",
+                "x-enum-varnames": [
+                  "ZERO_MINUTES",
+                  "ONE_MINUTE",
+                  "FIVE_MINUTES",
+                  "TEN_MINUTES",
+                  "FIFTEEN_MINUTES",
+                  "THIRTY_MINUTES",
+                  "ONE_HOUR",
+                  "TWO_HOURS"
+                ]
+              },
+              "keepAlive": {
+                "description": "Once a signal is generated, the signal will remain “open” if a case is matched at least once within\nthis keep alive window.",
+                "enum": [
+                  0,
+                  60,
+                  300,
+                  600,
+                  900,
+                  1800,
+                  3600,
+                  7200
+                ],
+                "format": "int32",
+                "type": "integer",
+                "x-enum-varnames": [
+                  "ZERO_MINUTES",
+                  "ONE_MINUTE",
+                  "FIVE_MINUTES",
+                  "TEN_MINUTES",
+                  "FIFTEEN_MINUTES",
+                  "THIRTY_MINUTES",
+                  "ONE_HOUR",
+                  "TWO_HOURS"
+                ]
+              },
+              "maxSignalDuration": {
+                "description": "A signal will “close” regardless of the query being matched once the time exceeds the maximum duration.\nThis time is calculated from the first seen timestamp.",
+                "enum": [
+                  0,
+                  60,
+                  300,
+                  600,
+                  900,
+                  1800,
+                  3600,
+                  7200,
+                  10800,
+                  21600,
+                  43200,
+                  86400
+                ],
+                "format": "int32",
+                "type": "integer",
+                "x-enum-varnames": [
+                  "ZERO_MINUTES",
+                  "ONE_MINUTE",
+                  "FIVE_MINUTES",
+                  "TEN_MINUTES",
+                  "FIFTEEN_MINUTES",
+                  "THIRTY_MINUTES",
+                  "ONE_HOUR",
+                  "TWO_HOURS",
+                  "THREE_HOURS",
+                  "SIX_HOURS",
+                  "TWELVE_HOURS",
+                  "ONE_DAY"
+                ]
+              }
+            },
+            "type": "object"
+          },
+          "queries": {
+            "description": "Queries for selecting logs which are part of the rule.",
+            "items": {
+              "description": "Query for matching rule.",
+              "properties": {
+                "distinctFields": {
+                  "description": "Field for which the cardinality is measured. Sent as an array.",
+                  "items": {
+                    "description": "Field",
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "groupByFields": {
+                  "description": "Fields to group by.",
+                  "items": {
+                    "description": "Field",
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "name": {
+                  "description": "Name of the query",
+                  "type": "string"
+                },
+                "query": {
+                  "description": "Query to run on logs",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "query"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "tags": {
+            "description": "Tags for generated signals.",
+            "items": {
+              "description": "Tag",
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "version": {
+            "description": "The version of the rule.",
+            "format": "int64",
+            "type": "integer"
+          }
+        }
+      },
       "SecurityMonitoringRuleSeverity": {
         "description": "Severity of the Security Signal.",
         "enum": [
@@ -6613,7 +6919,7 @@
               "description": "Case when signal is generated.",
               "properties": {
                 "condition": {
-                  "description": "A rule case contains logical operations (>, >=, &&, ||) to determine if a signal should be generated\nbased on the event counts in the previously defined queries.",
+                  "description": "A rule case contains logical operations (`>`,` >=`, `&&`, `||`) to determine if a signal should be generated\nbased on the event counts in the previously defined queries.",
                   "type": "string"
                 },
                 "name": {
@@ -17631,7 +17937,7 @@
                               "description": "Case when signal is generated.",
                               "properties": {
                                 "condition": {
-                                  "description": "A rule case contains logical operations (>, >=, &&, ||) to determine if a signal should be generated\nbased on the event counts in the previously defined queries.",
+                                  "description": "A rule case contains logical operations (`>`,` >=`, `&&`, `||`) to determine if a signal should be generated\nbased on the event counts in the previously defined queries.",
                                   "type": "string"
                                 },
                                 "name": {
@@ -17919,7 +18225,7 @@
                       "description": "Case when signal is generated.",
                       "properties": {
                         "condition": {
-                          "description": "A rule case contains logical operations (>, >=, &&, ||) to determine if a signal should be generated\nbased on the event counts in the previously defined queries.",
+                          "description": "A rule case contains logical operations (`>`,` >=`, `&&`, `||`) to determine if a signal should be generated\nbased on the event counts in the previously defined queries.",
                           "type": "string"
                         },
                         "name": {
@@ -17953,6 +18259,9 @@
                           ]
                         }
                       },
+                      "required": [
+                        "status"
+                      ],
                       "type": "object"
                     },
                     "type": "array"
@@ -18092,6 +18401,9 @@
                           "type": "string"
                         }
                       },
+                      "required": [
+                        "query"
+                      ],
                       "type": "object"
                     },
                     "type": "array"
@@ -18115,8 +18427,7 @@
                   "queries",
                   "options",
                   "cases",
-                  "message",
-                  "tags"
+                  "message"
                 ],
                 "type": "object"
               }
@@ -18136,7 +18447,7 @@
                         "description": "Case when signal is generated.",
                         "properties": {
                           "condition": {
-                            "description": "A rule case contains logical operations (>, >=, &&, ||) to determine if a signal should be generated\nbased on the event counts in the previously defined queries.",
+                            "description": "A rule case contains logical operations (`>`,` >=`, `&&`, `||`) to determine if a signal should be generated\nbased on the event counts in the previously defined queries.",
                             "type": "string"
                           },
                           "name": {
@@ -18170,6 +18481,9 @@
                             ]
                           }
                         },
+                        "required": [
+                          "status"
+                        ],
                         "type": "object"
                       },
                       "type": "array"
@@ -18327,6 +18641,9 @@
                             "type": "string"
                           }
                         },
+                        "required": [
+                          "query"
+                        ],
                         "type": "object"
                       },
                       "type": "array"
@@ -18510,7 +18827,7 @@
                         "description": "Case when signal is generated.",
                         "properties": {
                           "condition": {
-                            "description": "A rule case contains logical operations (>, >=, &&, ||) to determine if a signal should be generated\nbased on the event counts in the previously defined queries.",
+                            "description": "A rule case contains logical operations (`>`,` >=`, `&&`, `||`) to determine if a signal should be generated\nbased on the event counts in the previously defined queries.",
                             "type": "string"
                           },
                           "name": {
@@ -18781,7 +19098,7 @@
                       "description": "Case when signal is generated.",
                       "properties": {
                         "condition": {
-                          "description": "A rule case contains logical operations (>, >=, &&, ||) to determine if a signal should be generated\nbased on the event counts in the previously defined queries.",
+                          "description": "A rule case contains logical operations (`>`,` >=`, `&&`, `||`) to determine if a signal should be generated\nbased on the event counts in the previously defined queries.",
                           "type": "string"
                         },
                         "name": {
@@ -18981,7 +19298,7 @@
                         "description": "Case when signal is generated.",
                         "properties": {
                           "condition": {
-                            "description": "A rule case contains logical operations (>, >=, &&, ||) to determine if a signal should be generated\nbased on the event counts in the previously defined queries.",
+                            "description": "A rule case contains logical operations (`>`,` >=`, `&&`, `||`) to determine if a signal should be generated\nbased on the event counts in the previously defined queries.",
                             "type": "string"
                           },
                           "name": {
