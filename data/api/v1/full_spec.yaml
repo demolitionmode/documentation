@@ -7166,6 +7166,18 @@ components:
             an alert.
           format: int64
           type: integer
+        monitor_options:
+          description: Object containing the options for a Synthetic test as a monitor
+            (e.g. renotification).
+          properties:
+            renotify_interval:
+              description: Time interval before renotifying if the test is still failing
+                (in minutes).
+              format: int64
+              maximum: 1440
+              minimum: 0
+              type: integer
+          type: object
         retry:
           description: Object describing the retry strategy to apply to a Synthetic
             test.
@@ -8257,6 +8269,11 @@ components:
           items:
             $ref: '#/components/schemas/UsageSummaryDateOrg'
           type: array
+        profiling_host_top99p:
+          description: Shows the 99th percentile of all profiled hosts over all hours
+            in the current date for all organizations.
+          format: int64
+          type: integer
         rum_session_count_sum:
           description: Shows the sum of all RUM Sessions over all hours in the current
             date for all organizations
@@ -8370,6 +8387,11 @@ components:
         npm_host_top99p:
           description: Shows the 99th percentile of all distinct Networks hosts over
             all hours in the current date for the given org.
+          format: int64
+          type: integer
+        profiling_host_top99p:
+          description: Shows the 99th percentile of all profiled hosts over all hours
+            in the current date for all organizations.
           format: int64
           type: integer
         public_id:
@@ -8497,6 +8519,11 @@ components:
         npm_host_top99p_sum:
           description: Shows the 99th percentile of all distinct Networks hosts over
             all hours in the current month(s) for all organizations.
+          format: int64
+          type: integer
+        profiling_host_count_top99p_sum:
+          description: Shows the 99th percentile of all profiled hosts over all hours
+            in the current month(s) for all organizations.
           format: int64
           type: integer
         rum_session_count_agg_sum:
